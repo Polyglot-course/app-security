@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment-security
+  labels:
+    app: service-security
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-security
+  template:
+    metadata:
+      labels:
+        app: service-security
+    spec:
+      containers:
+      - name: app-security
+        image: polyglotxt/nodejs-aws-security:1
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NACOS_SERVERADDR
+          value: "18.216.235.222:8848"
+        - name: NACOS_NAMESPACE
+          value: "polyglot"
+        - name: NACOS_IDENTITYKEY
+          value: "nacos"
+        - name: NACOS_IDENTITYVALUE
+          value: "nacos"
+        - name: NACOS_ENV
+          value: "PROD"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: app-service-security
+spec:
+  type: ClusterIP
+  selector:
+    app: service-security
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    name: http
