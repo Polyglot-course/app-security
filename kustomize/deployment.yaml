@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app-security
-        image: polyglotxt/nodejs-aws-security:1
+        image: loaizamateo96/nodejs-aws-security:1
         ports:
         - containerPort: 8080
         env:
